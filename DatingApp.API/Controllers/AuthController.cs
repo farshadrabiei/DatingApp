@@ -12,7 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 namespace DatingApp.API.Controllers
 {
-
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
@@ -25,7 +25,7 @@ namespace DatingApp.API.Controllers
             _repo = repo;
 
         }
-
+        [AllowAnonymous]
         [HttpPost("register")]
         public async Task<IActionResult> Result(UserForRegister userForRegister)
         {
@@ -40,8 +40,8 @@ namespace DatingApp.API.Controllers
             var ceateUser = await _repo.Register(userToCreate, userForRegister.Password);
             return StatusCode(201);
         }
-
-      [HttpPost("login")]
+        [AllowAnonymous]
+        [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
         {
             var userFromRepo = await _repo.Login(userForLoginDto.Username.ToLower(), userForLoginDto.Password);
@@ -54,8 +54,8 @@ namespace DatingApp.API.Controllers
                 new Claim(ClaimTypes.NameIdentifier, userFromRepo.Id.ToString()),
                 new Claim(ClaimTypes.Name, userFromRepo.Username)
             };
-             var tokenKey=Encoding.UTF8
-                .GetBytes(_config.GetSection("AppSettings:Token").Value);
+            var tokenKey = Encoding.UTF8
+               .GetBytes(_config.GetSection("AppSettings:Token").Value);
 
             var key = new SymmetricSecurityKey(tokenKey);
 
@@ -72,8 +72,9 @@ namespace DatingApp.API.Controllers
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            return Ok(new {
-               
+            return Ok(new
+            {
+
                 token = tokenHandler.WriteToken(token)
             });
         }
