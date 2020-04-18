@@ -15,13 +15,9 @@
       <a class="nav-link" (click)="logout()">Logout</a>
     </li>
   </ul>
-
-
-
-
   <div class="dropdown" *ngIf="logedin()">
     <a class="  dropdown-toggle text-light">
-      خوش آمدید
+      خوش آمدید {{auth.decodedToken?.unique_name | titlecase}}
     </a>
 
     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
