@@ -1,10 +1,13 @@
 {
   "extends": "tslint:recommended",
   "rules": {
+    "no-string-literal":false,
+    "arrow-parens":false,
+    "array-type":false,
     "align": {
       "options": ["parameters", "statements"]
     },
-    "array-type": false,
+    
     "arrow-return-shorthand": true,
     "curly": true,
     "deprecation": {
