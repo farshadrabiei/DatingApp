@@ -1,5 +1,11 @@
+* Use Guard
+* Use Resolver
+
+
 # Guard
  Use DataGuard
+
+* **How To Use** - *SampleUse* 
 
 ```
 @Injectable({
