@@ -1,6 +1,7 @@
-# DatingApp
-Use DataGuard
+# Guard
+ Use DataGuard
 
+```
 @Injectable({
   providedIn: 'root',
 })
@@ -20,8 +21,12 @@ export class AuthGuard implements CanActivate {
     return false;
   }
 }
+```
+# Resolver
+ Use Resolver
 
-#Resolve
+
+```
 @Injectable()
 export class MemberEditResolver implements Resolve<User> {
   constructor(
@@ -41,3 +46,4 @@ export class MemberEditResolver implements Resolve<User> {
     );
   }
 }
+```
