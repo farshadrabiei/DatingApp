@@ -11,6 +11,7 @@ import { User } from 'src/app/_model/user';
 })
 export class MembersDetailComponent implements OnInit {
   user: User;
+  images: any[] = [];
   constructor(
     private userService: UserService,
     private alertify: AlertifyService,
@@ -21,5 +22,13 @@ export class MembersDetailComponent implements OnInit {
     this.route.data.subscribe((data) => {
       this.user = data['user'];
     });
+
+    for (const img of this.user.photos) {
+      this.images.push({
+        source: img.url,
+        alt: this.user.username,
+        title:this.user.username,
+      });
+    }
   }
 }

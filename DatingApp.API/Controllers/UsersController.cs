@@ -8,7 +8,7 @@ using DatingApp.API.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
+using System.Security.Claims;
 namespace DatingApp.API.Controllers
 {
     [Authorize]
@@ -29,7 +29,7 @@ namespace DatingApp.API.Controllers
         public async Task<IActionResult> GetUsers()
         {
             var users = await _repo.GetUsers();
-            return Ok( _mapper.Map<IEnumerable<UserForListDto>>(users));
+            return Ok(_mapper.Map<IEnumerable<UserForListDto>>(users));
         }
 
         [HttpGet("{id}")]
@@ -37,6 +37,19 @@ namespace DatingApp.API.Controllers
         {
             var user = await _repo.GetUser(id);
             return Ok(_mapper.Map<UserForDetailedDto>(user));
+        }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUser(int id, UserForUpdateDto userForUpdateDto)
+        {
+            if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
+            var userFromRepo = await _repo.GetUser(id);
+
+            _mapper.Map(userForUpdateDto, userFromRepo);
+            if (await _repo.SaveAll())
+                return NoContent();
+
+            throw new Exception($"Updating user {id} failed on save");
         }
     }
 }

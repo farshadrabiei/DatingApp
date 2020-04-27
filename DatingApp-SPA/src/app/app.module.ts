@@ -18,6 +18,7 @@ import { Router, RouterModule } from '@angular/router';
 import { MemberListComponent } from './members/member-list/member-list.component';
 import { ListsComponent } from './lists/lists.component';
 import { MessagesComponent } from './messages/messages.component';
+import { MemberEditComponent } from './members/member-edit/member-edit.component';
 import { appRoutes } from './routes';
 import { MemberCardComponent } from './members/member-card/member-card.component';
 import { CardModule } from 'primeng/card';
@@ -29,6 +30,9 @@ import { UserService } from './_service/user.service';
 import { MemberDetailResolver } from './_resolver/member-detail.resolver';
 import { MemberListResolver } from './_resolver/member-list.resolver';
 import { GalleriaModule } from 'primeng/galleria';
+import { MemberEditResolver } from './_resolver/member-edit.resolver';
+import { PreventUnsavedChangesGuard } from './_guards/prevent-unsaved-changes.guard';
+
 export function tokenGetter() {
   return localStorage.getItem('token');
 }
@@ -43,6 +47,7 @@ export function tokenGetter() {
     MessagesComponent,
     MemberCardComponent,
     MembersDetailComponent,
+    MemberEditComponent
   ],
   imports: [
     BrowserModule,
@@ -72,6 +77,8 @@ export function tokenGetter() {
     UserService,
     MemberDetailResolver,
     MemberListResolver,
+    MemberEditResolver,
+    PreventUnsavedChangesGuard
   ],
   bootstrap: [AppComponent],
 })

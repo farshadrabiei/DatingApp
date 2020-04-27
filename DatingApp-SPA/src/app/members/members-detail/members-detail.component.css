@@ -12,3 +12,10 @@
   background-color: #fff;
   border-top: none;
 }
+.ui-panel-images{
+  width: auto;
+  height: inherit;
+  object-fit: contain;
+  position: relative;
+}
+ 

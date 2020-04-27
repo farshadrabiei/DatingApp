@@ -19,7 +19,14 @@ export class NavComponent implements OnInit {
 
   ngOnInit() {
     this.items = [
-      { styleClass: 'mt-t', label: 'ویرایش پروفایل', icon: 'fa fa-user' },
+      {
+        styleClass: 'mt-t',
+        label: 'ویرایش پروفایل',
+        icon: 'fa fa-user',
+        command: () => {
+          this.router.navigate(['member/edit']);
+        },
+      },
       { separator: true },
       {
         styleClass: 'mt-t',

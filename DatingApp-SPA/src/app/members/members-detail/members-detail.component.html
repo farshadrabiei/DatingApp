@@ -39,25 +39,29 @@
     </div>
     <div class="col-sm-8">
       <div class="tab-panel">
-      <p-tabView class="member-tabset">
-        <p-tabPanel header="About {{user.knownAs}}">
-          <h4>Description</h4>
-          <p>{{user.interests}}</p>
-          <h4>Looking For</h4>
-          <p>{{user.lookingFor}}</p>
-        </p-tabPanel>
-        <p-tabPanel header="Interests">
-          <h4>Interests</h4>
-          <p>{{user.interests}}</p>
-        </p-tabPanel>
-        <p-tabPanel header="Photos">
-          <p>Photos will go here</p>
-        </p-tabPanel>
-        <p-tabPanel header="Messages">
-          <p>Messages will go here</p>
-        </p-tabPanel>
-      </p-tabView>
+        <p-tabView class="member-tabset">
+          <p-tabPanel header="About {{user.knownAs}}">
+            <h4>Description</h4>
+            <p>{{user.interests}}</p>
+            <h4>Looking For</h4>
+            <p>{{user.lookingFor}}</p>
+          </p-tabPanel>
+          <p-tabPanel header="Interests">
+            <h4>Interests</h4>
+            <p>{{user.interests}}</p>
+          </p-tabPanel>
+          <p-tabPanel header="Photos">
+
+            <p-galleria [images]="images" class="ui-panel-images" [showCaption]="false" effectDuration=2000
+              panelWidth="500" panelHeight="313">
+
+            </p-galleria>
+          </p-tabPanel>
+          <p-tabPanel header="Messages">
+            <p>Messages will go here</p>
+          </p-tabPanel>
+        </p-tabView>
+      </div>
     </div>
-  </div>
   </div>
 </div>
