@@ -3,6 +3,7 @@ import { UserService } from 'src/app/_service/user.service';
 import { AlertifyService } from 'src/app/_service/alertify.service';
 import { ActivatedRoute } from '@angular/router';
 import { User } from 'src/app/_model/user';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-members-detail',
@@ -11,6 +12,7 @@ import { User } from 'src/app/_model/user';
 })
 export class MembersDetailComponent implements OnInit {
   user: User;
+  environment = environment;
   images: any[] = [];
   constructor(
     private userService: UserService,
@@ -27,7 +29,7 @@ export class MembersDetailComponent implements OnInit {
       this.images.push({
         source: img.url,
         alt: this.user.username,
-        title:this.user.username,
+        title: this.user.username,
       });
     }
   }

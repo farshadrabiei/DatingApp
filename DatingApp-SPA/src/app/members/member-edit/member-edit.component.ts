@@ -5,6 +5,7 @@ import { AlertifyService } from 'src/app/_service/alertify.service';
 import { NgForm } from '@angular/forms';
 import { UserService } from 'src/app/_service/user.service';
 import { AuthService } from 'src/app/_service/auth.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-member-edit',
@@ -15,6 +16,7 @@ export class MemberEditComponent implements OnInit {
   user: User;
   @ViewChild('editForm', { static: true }) editForm: NgForm;
   @HostListener('window:beforeunload', ['$event'])
+  environment =environment;
   unloadNotification($event: any) {
     if (this.editForm.dirty) {
       $event.returnValue = true;
