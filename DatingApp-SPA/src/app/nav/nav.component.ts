@@ -3,6 +3,7 @@ import { AuthService } from '../_service/auth.service';
 import { AlertifyService } from '../_service/alertify.service';
 import { MenuItem } from 'primeng/api/menuitem';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-nav',
   templateUrl: './nav.component.html',
@@ -11,6 +12,8 @@ import { Router } from '@angular/router';
 export class NavComponent implements OnInit {
   model: any = {};
   items: MenuItem[];
+  photoUrl: string;
+  imageUrl = environment.imageUrl;
   constructor(
     public auth: AuthService,
     private alertify: AlertifyService,
@@ -18,6 +21,9 @@ export class NavComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+
+    this.auth.currentPhotoUrl.subscribe((p) => (this.photoUrl = p));
+
     this.items = [
       {
         styleClass: 'mt-t',
@@ -58,6 +64,9 @@ export class NavComponent implements OnInit {
   }
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    this.auth.decodedToken = null;
+    this.auth.currenUser = null;
     this.alertify.message('logout user');
     this.router.navigate(['']);
   }

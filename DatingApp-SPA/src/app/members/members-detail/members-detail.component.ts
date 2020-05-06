@@ -27,7 +27,7 @@ export class MembersDetailComponent implements OnInit {
 
     for (const img of this.user.photos) {
       this.images.push({
-        source: img.url,
+        source: environment.imageUrl + img.url,
         alt: this.user.username,
         title: this.user.username,
       });

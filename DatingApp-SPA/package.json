@@ -25,6 +25,7 @@
     "bootstrap-v4-rtl": "^4.4.1-1",
     "bootswatch": "^4.4.1",
     "font-awesome": "^4.7.0",
+    "ng2-file-upload": "^1.4.0",
     "primeicons": "^2.0.0",
     "primeng": "^9.0.5",
     "rxjs": "~6.5.4",

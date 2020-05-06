@@ -9,9 +9,11 @@ using DatingApp.API.Models;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Cors;
 
 namespace DatingApp.API.Controllers
 {
+
     [Authorize]
     [Route("api/users/{userId}/photos")]
     [ApiController]
@@ -51,13 +53,13 @@ namespace DatingApp.API.Controllers
             if (file == null || file.Length == 0)
                 return Content("file not selected");
 
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images",file.FileName);
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", file.FileName);
 
             using (var stream = new FileStream(path, FileMode.Create))
             {
                 await file.CopyToAsync(stream);
             }
-            photoForCreationDto.Url =  Path.Combine("/images",file.FileName);
+            photoForCreationDto.Url = Path.Combine("/images", file.FileName);
             var photo = _mapper.Map<Photo>(photoForCreationDto);
             if (!userForRepo.Photos.Any(o => o.IsMain))
             {
@@ -69,7 +71,7 @@ namespace DatingApp.API.Controllers
                 var photoToReturn = _mapper.Map<PhotoForReturnDto>(photo);
                 return CreatedAtRoute("GetPhoto", new { userId = userId, id = photo.Id }, photoToReturn);
             }
-            return BadRequest("Could not add thr photo");
+            return BadRequest("Could not add the photo");
         }
 
         public async Task<IActionResult> Download(string filename)
@@ -105,7 +107,7 @@ namespace DatingApp.API.Controllers
                 {".doc", "application/vnd.ms-word"},
                 {".docx", "application/vnd.ms-word"},
                 {".xls", "application/vnd.ms-excel"},
-                {".xlsx", "application/vnd.openxmlformatsofficedocument.spreadsheetml.sheet"},  
+                {".xlsx", "application/vnd.openxmlformatsofficedocument.spreadsheetml.sheet"},
                 {".png", "image/png"},
                 {".jpg", "image/jpeg"},
                 {".jpeg", "image/jpeg"},
@@ -113,5 +115,57 @@ namespace DatingApp.API.Controllers
                 {".csv", "text/csv"}
             };
         }
+        [HttpPost("{id}/setMain")]
+        public async Task<IActionResult> SetMainPhoto(int userId, int id)
+        {
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
+
+            var user = await _repo.GetUser(userId);
+
+            if (!user.Photos.Any(p => p.Id == id))
+                return Unauthorized();
+            var photoFromRepo = await _repo.GetPhoto(id);
+
+            if (photoFromRepo.IsMain)
+                return BadRequest("This is already main photo");
+            var currentainPhoto = await _repo.GetMainPhotoForUser(userId);
+            currentainPhoto.IsMain = false;
+            photoFromRepo.IsMain = true;
+            if (await _repo.SaveAll())
+                return NoContent();
+
+            return BadRequest("could not photo to main");
+
+        }
+
+        [HttpDelete("{id}")]
+
+        public async Task<IActionResult> DeletePhoto(int userId, int id)
+        {
+
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
+
+            var user = await _repo.GetUser(userId);
+
+            if (!user.Photos.Any(p => p.Id == id))
+                return Unauthorized();
+            var photoFromRepo = await _repo.GetPhoto(id);
+
+            if (photoFromRepo.IsMain)
+                return BadRequest("CAN NOT DELETE PHOTO");
+
+                
+
+            _repo.Delete(photoFromRepo);
+            if (await _repo.SaveAll())
+                return Ok();
+
+            return BadRequest("Faild to delete the photo");
+
+        }
+
+
     }
 }
