@@ -17,7 +17,7 @@
 
 
     
-    <span  class="mr-1"><img src="{{imageUrl + photoUrl}}" /></span>
+    <span  *ngIf="logedin()" class="mr-1"><img src="{{imageUrl + photoUrl || '../../assets/user.png'}}" /></span>
 
     <p-splitButton *ngIf="logedin()" id="loginMenu" label="  خوش آمدید {{auth.decodedToken?.unique_name | titlecase}}"
       [model]="items" styleClass="ui-button-secondary">
