@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Routes } from '@angular/router';
 import { JwtModule } from '@auth0/angular-jwt';
 import { FileUploadModule } from 'ng2-file-upload';
+import { PaginatorModule } from 'primeng/paginator';
 //import {TimeAgoPipe} from 'time-ago-pipe';
 
 import { AppComponent } from './app.component';
@@ -51,8 +52,8 @@ export function tokenGetter() {
     MemberCardComponent,
     MembersDetailComponent,
     MemberEditComponent,
-    PhotoEditorComponent
- ////, TimeAgoPipe
+    PhotoEditorComponent,
+    ////, TimeAgoPipe
   ],
   imports: [
     BrowserModule,
@@ -62,6 +63,7 @@ export function tokenGetter() {
     MenubarModule,
     SplitButtonModule,
     SplitButtonModule,
+    PaginatorModule,
     BrowserAnimationsModule,
     CardModule,
     TabViewModule,
