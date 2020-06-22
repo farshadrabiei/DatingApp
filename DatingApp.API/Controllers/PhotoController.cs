@@ -32,16 +32,14 @@ namespace DatingApp.API.Controllers
         [HttpGet("{id}", Name = "GetPhoto")]
         public async Task<IActionResult> GetPhoto(int id)
         {
-
-            var photoFormRepo = _repo.GetPhoto(id);
-
+            var photoFormRepo = await _repo.GetPhoto(id);
             var photo = _mapper.Map<PhotoForReturnDto>(photoFormRepo);
             return Ok(photo);
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> AddPhoto(int userId, [FromForm]PhotoForCreationDto photoForCreationDto)
+        public async Task<IActionResult> AddPhoto(int userId, [FromForm] PhotoForCreationDto photoForCreationDto)
         {
             if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
                 return Unauthorized();
@@ -156,7 +154,7 @@ namespace DatingApp.API.Controllers
             if (photoFromRepo.IsMain)
                 return BadRequest("CAN NOT DELETE PHOTO");
 
-                
+
 
             _repo.Delete(photoFromRepo);
             if (await _repo.SaveAll())
