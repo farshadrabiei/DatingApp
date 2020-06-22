@@ -72,7 +72,7 @@ namespace DatingApp.API.Controllers
                 return Ok(new
                 {
 
-                    token = GeneratedJwtToken(user),
+                    token = GeneratedJwtToken(user).Result,
                     appUser
                 });
             }
